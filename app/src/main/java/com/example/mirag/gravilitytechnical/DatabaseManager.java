@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DatabaseManager extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 3;
     private static final String DATABASE_NAME = "applefeed.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String NUMBER_TYPE = " INTEGER";
@@ -22,6 +22,7 @@ class DatabaseManager extends SQLiteOpenHelper{
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_PRICE_VALUE + NUMBER_TYPE + COMMA_SEP +
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_PRICE_CURRENCY + TEXT_TYPE + COMMA_SEP +
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_TITLE + TEXT_TYPE + COMMA_SEP +
+                    DatabaseManagerApp.AppEntry.COLUMN_NAME_CATEGORY + TEXT_TYPE + COMMA_SEP +
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_RELEASE_DATE + TEXT_TYPE + COMMA_SEP +
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_IMAGE_1 + TEXT_TYPE + COMMA_SEP +
                     DatabaseManagerApp.AppEntry.COLUMN_NAME_IMAGE_2 + TEXT_TYPE + COMMA_SEP +

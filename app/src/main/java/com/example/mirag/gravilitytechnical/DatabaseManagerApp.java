@@ -18,6 +18,7 @@ class DatabaseManagerApp {
         static final String COLUMN_NAME_PRICE_CURRENCY = "price_currency";
         static final String COLUMN_NAME_TITLE = "title";
         static final String COLUMN_NAME_RELEASE_DATE = "release_date";
+        static final String COLUMN_NAME_CATEGORY = "category";
     }
 
 }

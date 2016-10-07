@@ -10,11 +10,4 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     android:orientation="vertical"
     tools:context="com.example.mirag.gravilitytechnical.CategoriesListActivity">
-
-    <TextView
-        android:id="@+id/response_text_view"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Android second view" />
-
 </LinearLayout>
