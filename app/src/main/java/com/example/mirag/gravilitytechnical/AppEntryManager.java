@@ -2,9 +2,9 @@ package com.example.mirag.gravilitytechnical;
 
 import android.provider.BaseColumns;
 
-class DatabaseManagerApp {
+class AppEntryManager {
 
-    private DatabaseManagerApp() {}
+    private AppEntryManager() {}
 
     static class AppEntry implements BaseColumns {
         static final String TABLE_NAME = "apps";
