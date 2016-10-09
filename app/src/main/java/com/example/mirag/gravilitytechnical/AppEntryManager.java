@@ -8,7 +8,7 @@ class AppEntryManager {
 
     static class AppEntry implements BaseColumns {
         static final String TABLE_NAME = "apps";
-        static final String COLUMN_NAME_APP_ID = "id";
+        static final String COLUMN_NAME_APP_ID = "app_id";
         static final String COLUMN_NAME_NAME = "name";
         static final String COLUMN_NAME_IMAGE_1 = "image_1";
         static final String COLUMN_NAME_IMAGE_2 = "image_2";

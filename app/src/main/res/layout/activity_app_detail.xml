@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/activity_app_detail"
     android:layout_width="match_parent"
@@ -8,6 +8,75 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.example.mirag.gravilitytechnical.AppDetailActivity">
+    android:orientation="vertical"
+    tools:context="com.example.mirag.gravilitytechnical.AppDetailActivity"
+    android:weightSum="1">
 
-</RelativeLayout>
+    <ImageView
+        android:id="@+id/image1_image_view"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@string/image_1"
+        />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="0.08">
+
+            <TextView
+                android:id="@+id/title_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:text="title"
+                />
+
+            <TextView
+                android:id="@+id/release_date_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_text_view"
+                android:text="release_date"
+                />
+
+            <TextView
+                android:id="@+id/price_value_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_text_view"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:text="0.00"
+                />
+
+            <TextView
+                android:id="@+id/price_currency_text_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/title_text_view"
+                android:layout_toLeftOf="@id/price_value_text_view"
+                android:layout_toStartOf="@id/price_value_text_view"
+                android:text="USD "
+                />
+
+            <TextView
+                android:id="@+id/summary_text_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="summary"
+                android:layout_below="@id/release_date_text_view"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                />
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+</LinearLayout>
