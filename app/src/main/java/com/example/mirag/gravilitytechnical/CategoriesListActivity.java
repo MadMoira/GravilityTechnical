@@ -4,12 +4,14 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -27,8 +29,6 @@ import java.util.ArrayList;
 public class CategoriesListActivity extends AppCompatActivity {
 
     String urlService = "https://itunes.apple.com/us/rss/topfreeapplications/limit=20/json";
-    String appQueryString = "SELECT * FROM apps WHERE %s = %s";
-    String categoriesQueryString = "SELECT %s FROM apps";
 
     ArrayList<String> categories = new ArrayList<>();
 
@@ -40,8 +40,13 @@ public class CategoriesListActivity extends AppCompatActivity {
         final DatabaseManager appHelper = new DatabaseManager(getApplicationContext());
         final SQLiteDatabase db = appHelper.getWritableDatabase();
 
-        getData(db);
-        showCategories(db);
+        boolean isConnected = NetworkReceiver.isConnected(getApplicationContext());
+        if(isConnected){
+            getData(db);
+        } else {
+            Toast.makeText(getApplicationContext(), "No internet connection, loading database categories", Toast.LENGTH_LONG).show();
+            showCategories(db);
+        }
     }
 
     private void showCategories(final SQLiteDatabase db) {
@@ -50,7 +55,7 @@ public class CategoriesListActivity extends AppCompatActivity {
 
         Cursor categories_cursor = db.rawQuery(
                 String.format(
-                        categoriesQueryString,
+                        AppEntryManager.queryAllCategories,
                         AppEntryManager.AppEntry.COLUMN_NAME_CATEGORY
                 ),
                 null
@@ -104,13 +109,13 @@ public class CategoriesListActivity extends AppCompatActivity {
                                 // Get all apps that have the same app id, it should only be one anyway
                                 Cursor c = db.rawQuery(
                                         String.format(
-                                                appQueryString,
+                                                AppEntryManager.queryGeneralSingleValue,
                                                 AppEntryManager.AppEntry.COLUMN_NAME_APP_ID,
                                                 currentEntry.getJSONObject("id").getJSONObject("attributes").getInt("im:id")
                                         ),
                                         null);
 
-                                // Avoid repeated apps
+                                // Avoid saving repeated apps
                                 if (c.getCount() != 0) {
                                     c.close();
                                     continue;
@@ -135,6 +140,7 @@ public class CategoriesListActivity extends AppCompatActivity {
                                 if(!categories.contains(currentEntry.getJSONObject("category").getJSONObject("attributes").getString("label"))){
                                     categories.add(currentEntry.getJSONObject("category").getJSONObject("attributes").getString("label"));
                                 }
+                                showCategories(db);
                             }
 
                         } catch (JSONException e) {
@@ -146,7 +152,8 @@ public class CategoriesListActivity extends AppCompatActivity {
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-
+                        Toast.makeText(getApplicationContext(), "There was an error with the request, getting local catgories", Toast.LENGTH_LONG).show();
+                        showCategories(db);
                     }
         });
         queue.add(stringRequest);

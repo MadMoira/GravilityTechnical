@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 class DatabaseManager extends SQLiteOpenHelper{
 
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "applefeed.db";
     private static final String TEXT_TYPE = " TEXT";
     private static final String NUMBER_TYPE = " INTEGER";

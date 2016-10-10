@@ -4,6 +4,11 @@ import android.provider.BaseColumns;
 
 class AppEntryManager {
 
+    static String queryAppByID = "SELECT * FROM apps WHERE app_id = %s";
+    static String queryAppsByCategory = "SELECT * FROM apps WHERE category = '%s'";
+    static String queryGeneralSingleValue = "SELECT * FROM apps WHERE %s = %s";
+    static String queryAllCategories = "SELECT %s FROM apps";
+
     private AppEntryManager() {}
 
     static class AppEntry implements BaseColumns {

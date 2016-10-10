@@ -16,7 +16,6 @@ import java.util.Set;
 
 public class AppListActivity extends AppCompatActivity {
 
-    private String listQuery = "SELECT * FROM apps WHERE category = '%s'";
     private HashMap<String, String> apps = new HashMap<>();
 
     @Override
@@ -36,7 +35,7 @@ public class AppListActivity extends AppCompatActivity {
 
             Cursor apps_cursor = db.rawQuery(
                     String.format(
-                            listQuery,
+                            AppEntryManager.queryAppsByCategory,
                             categoryName
                     ),
                     null);

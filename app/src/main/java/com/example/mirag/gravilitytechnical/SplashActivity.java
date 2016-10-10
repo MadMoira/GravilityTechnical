@@ -7,14 +7,12 @@ import android.os.Handler;
 
 public class SplashActivity extends AppCompatActivity {
 
-    // Duration of the Splash Screen
-    private final int SPLASH_DISPLAY_LENGTH = 1000;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
+        int SPLASH_DISPLAY_LENGTH = 1000;
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
