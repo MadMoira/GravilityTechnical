@@ -15,7 +15,11 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="New application!!" />
+        android:text="@string/itunes_apps"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:fontFamily="sans-serif"
+        android:textSize="36sp"
+        android:textStyle="normal|bold" />
 
 
 </RelativeLayout>
