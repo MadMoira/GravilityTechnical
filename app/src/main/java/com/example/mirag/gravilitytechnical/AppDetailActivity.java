@@ -25,7 +25,7 @@ public class AppDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_app_detail);
 
-        final DatabaseManager appHelper = new DatabaseManager(getApplicationContext());
+        final DatabaseManager appHelper = DatabaseManager.getInstance(getApplicationContext());
         final SQLiteDatabase db = appHelper.getWritableDatabase();
 
         Bundle extras = getIntent().getExtras();

@@ -4,12 +4,13 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.NetworkOnMainThreadException;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -37,7 +38,7 @@ public class CategoriesListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_categories_list);
 
-        final DatabaseManager appHelper = new DatabaseManager(getApplicationContext());
+        final DatabaseManager appHelper = DatabaseManager.getInstance(getApplicationContext());
         final SQLiteDatabase db = appHelper.getWritableDatabase();
 
         boolean isConnected = NetworkReceiver.isConnected(getApplicationContext());
@@ -51,7 +52,7 @@ public class CategoriesListActivity extends AppCompatActivity {
 
     private void showCategories(final SQLiteDatabase db) {
 
-        final LinearLayout layout = (LinearLayout) findViewById(R.id.activity_categories_list);
+        boolean tabletSize = getResources().getBoolean(R.bool.isTablet);
 
         Cursor categories_cursor = db.rawQuery(
                 String.format(
@@ -72,12 +73,60 @@ public class CategoriesListActivity extends AppCompatActivity {
 
         categories_cursor.close();
 
+        if(tabletSize) {
+            AddElementsToGrid();
+        } else {
+            AddElementsToList();
+        }
+    }
+
+    private void AddElementsToGrid() {
+        ViewGroup layout;
+        GridLayout.LayoutParams layoutParams;
+
+        layout = (GridLayout) findViewById(R.id.activity_categories_list);
+
+        int counter = 0;
+        for(String object: categories) {
+
+            layoutParams = new GridLayout.LayoutParams();
+            layoutParams.width = 200;
+            layoutParams.height = 200;
+            layoutParams.setGravity(Gravity.CENTER_VERTICAL);
+            layoutParams.columnSpec = GridLayout.spec(counter);
+
+            Button categoryButton = new Button(getApplicationContext());
+            categoryButton.setLayoutParams(layoutParams);
+            categoryButton.setText(object);
+            categoryButton.setTag(object);
+            categoryButton.setGravity(Gravity.CENTER);
+            categoryButton.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View view){
+                    Intent categoryIntent = new Intent(CategoriesListActivity.this, AppListActivity.class);
+                    categoryIntent.putExtra("EXTRA_CATEGORY_NAME", view.getTag().toString());
+                    startActivity(categoryIntent);
+                }
+            });
+            layout.addView(categoryButton);
+
+            counter += 1;
+            if (counter == 5) {
+                counter = 0;
+            }
+        }
+    }
+
+    private void AddElementsToList() {
+
+        LinearLayout layout = (LinearLayout) findViewById(R.id.activity_categories_list);
+        ViewGroup.LayoutParams layoutParams = new ViewGroup.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT,
+                ViewGroup.LayoutParams.WRAP_CONTENT
+        );
+
         for(String object: categories) {
             Button categoryButton = new Button(getApplicationContext());
-            categoryButton.setLayoutParams(new ViewGroup.LayoutParams(
-                    ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.WRAP_CONTENT
-            ));
+            categoryButton.setLayoutParams(layoutParams);
             categoryButton.setText(object);
             categoryButton.setTag(object);
             categoryButton.setOnClickListener(new View.OnClickListener() {
@@ -140,19 +189,18 @@ public class CategoriesListActivity extends AppCompatActivity {
                                 if(!categories.contains(currentEntry.getJSONObject("category").getJSONObject("attributes").getString("label"))){
                                     categories.add(currentEntry.getJSONObject("category").getJSONObject("attributes").getString("label"));
                                 }
-                                showCategories(db);
                             }
 
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
+                        showCategories(db);
 
                     }
                 }, new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        Toast.makeText(getApplicationContext(), "There was an error with the request, getting local catgories", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getApplicationContext(), "There was an error with the request, getting local categories", Toast.LENGTH_LONG).show();
                         showCategories(db);
                     }
         });
